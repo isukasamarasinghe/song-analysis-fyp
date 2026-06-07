@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - Song Analyser</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-white">
+
+    <nav class="navbar navbar-dark bg-black px-4">
+        <span class="navbar-brand fw-bold fs-4">🎵 Song Analyser</span>
+        <a href="/" class="btn btn-outline-light btn-sm">Analyse Another Song</a>
+    </nav>
+
+    <div class="container mt-4">
+
+        <h2 class="mb-4">Analysis Results — {{ results.filename }}</h2>
+
+        <!-- Key Info Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card bg-secondary text-white text-center p-3">
+                    <div class="fs-6 text-light">Musical Key</div>
+                    <div class="fs-4 fw-bold">{{ results.key }}</div>
+                    <div class="small text-light">Confidence: {{ results.key_confidence }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-secondary text-white text-center p-3">
+                    <div class="fs-6 text-light">Tempo</div>
+                    <div class="fs-4 fw-bold">{{ results.tempo }} BPM</div>
+                    <div class="small text-light">Beats per minute</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-secondary text-white text-center p-3">
+                    <div class="fs-6 text-light">Duration</div>
+                    <div class="fs-4 fw-bold">{{ results.duration }}s</div>
+                    <div class="small text-light">Song length</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white text-center p-3">
+                    <div class="fs-6 text-light">Difficulty</div>
+                    <div class="fs-4 fw-bold">{{ results.difficulty }}</div>
+                    <div class="small text-light">Confidence: {{ results.difficulty_confidence }}%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Song Structure -->
+        <div class="card bg-secondary text-white mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">🎼 Song Structure</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Section</th>
+                                <th>Start</th>
+                                <th>End</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for section in results.sections %}
+                            <tr>
+                                <td><span class="badge bg-primary">{{ section.label }}</span></td>
+                                <td>{{ section.start_formatted }}</td>
+                                <td>{{ section.end_formatted }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chord Chart -->
+        <div class="card bg-secondary text-white mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">🎸 Chord Chart <small class="text-light fs-6">(showing first 20 of {{ results.total_chords }} chords)</small></h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Chord</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for chord in results.chords %}
+                            <tr>
+                                <td>{{ chord.start_formatted }}</td>
+                                <td>{{ chord.end_formatted }}</td>
+                                <td><strong>{{ chord.chord }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-5">
+            <a href="/" class="btn btn-success btn-lg">Analyse Another Song</a>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
